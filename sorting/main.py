@@ -12,6 +12,7 @@ def insertion_sort(lst):
         lst[j + 1] = key
     return lst
 
+
 # 2. Сортування злиттям (Merge Sort)
 def merge_sort(arr):
     if len(arr) <= 1:
@@ -42,3 +43,30 @@ def merge(left, right):
     merged.extend(right[right_index:])
 
     return merged
+
+
+if __name__ == "__main__":
+    sizes = [100, 1000, 5000, 10000]
+
+    print(f"{'Algorithm':<20} | {'Size':<10} | {'Time (sec)':<15}")
+    print("-" * 50)
+
+    for size in sizes:
+        data = [random.randint(0, 100_000) for _ in range(size)]
+
+        # 1. Замір Insertion Sort
+        if size <= 10000: 
+            time_insertion = timeit.timeit(lambda: insertion_sort(data[:]), number=5)
+            print(f"{'Insertion Sort':<20} | {size:<10} | {time_insertion:.5f}")
+        else:
+            print(f"{'Insertion Sort':<20} | {size:<10} | {'Skipped (too slow)':<15}")
+
+        # 2. Замір Merge Sort
+        time_merge = timeit.timeit(lambda: merge_sort(data[:]), number=5)
+        print(f"{'Merge Sort':<20} | {size:<10} | {time_merge:.5f}")
+
+        # 3. Замір Timsort (sorted)
+        time_timsort = timeit.timeit(lambda: sorted(data[:]), number=5)
+        print(f"{'Timsort (Built-in)':<20} | {size:<10} | {time_timsort:.5f}")
+        
+        print("-" * 50)
